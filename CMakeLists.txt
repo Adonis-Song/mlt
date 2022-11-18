@@ -53,10 +53,16 @@ if(WIN32)
   option(WINDOWS_DEPLOY "Install exes/libs directly to prefix (no subdir /bin)" ON)
 else()
   if(APPLE)
-    option(RELOCATABLE "Use standard app bundle layout" ON)
+    option(RELOCATABLE "Use standard app bundle layout" OFF)
   else()
     option(RELOCATABLE "Look for plugins relative to app" OFF)
   endif()
+endif()
+
+if (APPLE)
+  set (CMAKE_PREFIX_PATH "/usr/local/Cellar/qt@5/5.15.2/"
+          "/usr/local/Cellar/libxml2/2.9.12/"
+          "/usr/local/Cellar/sdl2/2.0.14_1/")
 endif()
 
 
