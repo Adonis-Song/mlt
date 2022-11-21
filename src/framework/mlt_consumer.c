@@ -1160,7 +1160,9 @@ static void consumer_work_start( mlt_consumer self )
 		pthread_attr_init( &thread_attributes );
 		pthread_attr_setschedpolicy( &thread_attributes, SCHED_OTHER );
 		pthread_attr_setschedparam( &thread_attributes, &priority );
+#ifndef __ANDROID__
 		pthread_attr_setinheritsched( &thread_attributes, PTHREAD_EXPLICIT_SCHED );
+#endif
 		pthread_attr_setscope( &thread_attributes, PTHREAD_SCOPE_SYSTEM );
 
 		while ( n-- )
@@ -1746,6 +1748,11 @@ static void mlt_thread_create(mlt_consumer self, mlt_thread_function_t function 
 		};
 		if ( mlt_events_fire( properties, "consumer-thread-create", mlt_event_data_from_object(&data) ) < 1 )
 		{
+#ifdef __ANDROID__
+            priv->ahead_thread = malloc( sizeof( pthread_t ) );
+            pthread_t *handle = priv->ahead_thread;
+            pthread_create( ( pthread_t* ) &( *handle ), NULL, function, self );
+#elif
 			pthread_attr_t thread_attributes;
 			pthread_attr_init( &thread_attributes );
 			pthread_attr_setschedpolicy( &thread_attributes, SCHED_OTHER );
@@ -1757,6 +1764,7 @@ static void mlt_thread_create(mlt_consumer self, mlt_thread_function_t function 
 			if ( pthread_create( ( pthread_t* ) &( *handle ), &thread_attributes, function, self ) < 0 )
 				pthread_create( ( pthread_t* ) &( *handle ), NULL, function, self );
 			pthread_attr_destroy( &thread_attributes );
+#endif
 		}
 	}
 	else

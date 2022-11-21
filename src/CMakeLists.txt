@@ -1,7 +1,10 @@
 add_subdirectory(framework)
-add_subdirectory(melt)
-add_subdirectory(mlt++)
 add_subdirectory(modules)
+
+if (NOT ANDROID)
+  add_subdirectory(melt)
+  add_subdirectory(mlt++)
+endif()
 
 if(SWIG_FOUND)
   add_subdirectory(swig)
