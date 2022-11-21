@@ -69,8 +69,12 @@ static mlt_properties metadata( mlt_service_type type, const char *id, void *dat
 	snprintf( file, PATH_MAX, "%s/core/%s", mlt_environment( "MLT_DATA" ), (char*) data );
 	return mlt_properties_parse_yaml( file );
 }
-
+#ifdef __ANDROID__
+extern void mlt_register_core(mlt_repository repository);
+void mlt_register_core(mlt_repository repository)
+#else
 MLT_REPOSITORY
+#endif
 {
 	MLT_REGISTER( mlt_service_consumer_type, "multi", consumer_multi_init );
 	MLT_REGISTER( mlt_service_consumer_type, "null", consumer_null_init );

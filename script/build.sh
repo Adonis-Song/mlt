@@ -13,4 +13,4 @@ cmake .. \
 -DCMAKE_INSTALL_PREFIX=packed
 #make -j 8
 
-cmake --build . --target install --config Debug -v
+cmake --build . --target install --config Debug

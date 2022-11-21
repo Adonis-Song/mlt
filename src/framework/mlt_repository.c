@@ -52,6 +52,8 @@ struct mlt_repository_s
 	mlt_properties transitions;     /// a list of entry points for transitions
 };
 
+extern void (* const func_ptr[])(mlt_repository repository);
+
 /** Construct a new repository.
  *
  * \public \memberof mlt_repository_s
@@ -61,10 +63,11 @@ struct mlt_repository_s
 
 mlt_repository mlt_repository_init( const char *directory )
 {
-	// Safety check
+#ifndef __ANDROID__
+    // Safety check
 	if ( directory == NULL || strcmp( directory, "" ) == 0 )
 		return NULL;
-
+#endif
 	// Construct the repository
 	mlt_repository self = calloc( 1, sizeof( struct mlt_repository_s ));
 	mlt_properties_init( &self->parent, self );
@@ -74,11 +77,13 @@ mlt_repository mlt_repository_init( const char *directory )
 	self->producers = mlt_properties_new();
 	self->transitions = mlt_properties_new();
 
+    int i;
+    int plugin_count = 0;
+#ifndef __ANDROID__
+
 	// Get the directory list
 	mlt_properties dir = mlt_properties_new();
 	int count = mlt_properties_dir_list( dir, directory, NULL, 0 );
-	int i;
-	int plugin_count = 0;
 
 #ifdef _WIN32
 	char *syspath = getenv("PATH");
@@ -175,13 +180,19 @@ mlt_repository mlt_repository_init( const char *directory )
 			mlt_log_warning( NULL, "%s: failed to dlopen %s\n  (%s)\n", __FUNCTION__, object_name, dlerror() );
 		}
 	}
+    
+    mlt_properties_close( dir );
 
+	mlt_tokeniser_close( tokeniser );
+#else
+    func_ptr[0](self);
+    plugin_count ++;
+#endif
+    
 	if ( !plugin_count )
 		mlt_log_error( NULL, "%s: no plugins found in \"%s\"\n", __FUNCTION__, directory );
 
-	mlt_properties_close( dir );
-
-	mlt_tokeniser_close( tokeniser );
+	
 
 	return self;
 }

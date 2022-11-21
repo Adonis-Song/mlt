@@ -1,4 +1,4 @@
-add_library(mltcore MODULE
+add_library(mltcore OBJECT
   consumer_multi.c
   consumer_null.c
   factory.c

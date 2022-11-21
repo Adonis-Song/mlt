@@ -4,6 +4,8 @@ add_subdirectory(modules)
 if (NOT ANDROID)
   add_subdirectory(melt)
   add_subdirectory(mlt++)
+else()
+  add_subdirectory(android)
 endif()
 
 if(SWIG_FOUND)

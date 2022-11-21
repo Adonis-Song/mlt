@@ -33,7 +33,7 @@ set(MLT_PUBLIC_HEADERS
   mlt_version.h
 )
 
-add_library(mlt SHARED
+add_library(mlt STATIC
   mlt_animation.c
   mlt_audio.c
   mlt_cache.c
