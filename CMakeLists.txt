@@ -16,7 +16,7 @@ option(BUILD_DOCS "Enable Doxygen documentation" OFF)
 option(BUILD_TESTS_WITH_QT6 "Build test against Qt 6" OFF)
 
 # ffmpeg相关的模块
-option(MOD_AVFORMAT "Enable avformat module" OFF)
+option(MOD_AVFORMAT "Enable avformat module" ON)
 option(MOD_DECKLINK "Enable DeckLink module" OFF)
 option(MOD_FREI0R "Enable Frei0r module" OFF)
 option(MOD_GDK "Enable GDK module" OFF)
@@ -196,6 +196,9 @@ if(MOD_XML OR MOD_JACKRACK)
 endif()
 
 if(MOD_AVFORMAT)
+  if (ANDROID)
+    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ./androidlib)
+  endif()
   pkg_check_modules(libavformat IMPORTED_TARGET libavformat)
   pkg_check_modules(libswscale IMPORTED_TARGET libswscale)
   pkg_check_modules(libavutil IMPORTED_TARGET libavutil)
