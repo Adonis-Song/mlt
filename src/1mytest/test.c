@@ -152,13 +152,8 @@ mlt_producer create_tracks( int argc, char **argv, mlt_profile profile)
     // mlt_producer producer = mlt_factory_producer( profile, "loader","pixbuf:~/Downloads/demo.jpeg");
 	mlt_producer producer = mlt_factory_producer( profile, "qimage", "/Users/apple/Downloads/demo1.jpeg" );
 
-	create_filter( profile, producer, "movit.convert" );
-	create_filter( profile, producer, "avcolor_space");
-	create_filter( profile, producer, "audioconvert");
-
     // Get the length of track0
     mlt_position length = mlt_producer_get_playtime( track0 );
-
 
 	mlt_playlist playlist = mlt_playlist_init();
 	mlt_playlist_append_io(playlist, producer, 0, length - 1);
