@@ -1,16 +1,23 @@
-cd /Users/apple/Documents/mediaframework/mlt/build/ || return
+LOCAL_PATH=/Users/zhuosong/Documents/github/mlt
+# LOCAL_PATH=/Users/apple/Documents/mediaframework/mlt
+LOCAL_NDK_PATH=/Users/zhuosong/Library/Android/sdk/ndk/24.0.8215888
+# LOCAL_NDK_PATH=/Users/apple/Library/Android/sdk/ndk/24.0.8215888/
+LOCAL_DEP_PATH=/Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/pkgconfig
+
+cd $LOCAL_PATH/build/ || return
 cmake .. \
 -DCMAKE_BUILD_TYPE=Debug \
--DCMAKE_TOOLCHAIN_FILE=/Users/apple/Library/Android/sdk/ndk/24.0.8215888/build/cmake/android.toolchain.cmake \
+-DCMAKE_TOOLCHAIN_FILE=$LOCAL_NDK_PATH/build/cmake/android.toolchain.cmake \
 -DANDROID_ABI=arm64-v8a \
 -DANDROID_PLATFORM=android-20 \
 -DCMAKE_ANDROID_ARCH_ABI=arm64-v8a \
--DCMAKE_ANDROID_NDK=/Users/apple/Library/Android/sdk/ndk/24.0.8215888 \
+-DCMAKE_ANDROID_NDK=$LOCAL_NDK_PATH \
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 -DCMAKE_SYSTEM_NAME=Android \
 -DCMAKE_SYSTEM_VERSION=20 \
 -DANDROID=true \
--DCMAKE_INSTALL_PREFIX=packed
+-DCMAKE_INSTALL_PREFIX=packed \
+-DANDROID_LIB_PATH=$LOCAL_DEP_PATH
 #make -j 8
 
 cmake --build . --target install --config Debug

@@ -5,6 +5,7 @@ if (NOT ANDROID)
   add_subdirectory(melt)
   add_subdirectory(mlt++)
 else()
+  message("song sonsg ")
   add_subdirectory(android)
 endif()
 

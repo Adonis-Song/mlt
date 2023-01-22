@@ -185,8 +185,11 @@ mlt_repository mlt_repository_init( const char *directory )
 
 	mlt_tokeniser_close( tokeniser );
 #else
-    func_ptr[0](self);
-    plugin_count ++;
+	for(int i = 0; i < sizeof(func_ptr) / sizeof(func_ptr[0]))
+	{
+		func_ptr[i](self);
+		plugin_count ++;
+	}
 #endif
     
 	if ( !plugin_count )

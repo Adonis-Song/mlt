@@ -3,7 +3,9 @@
 //
 #include "framework/mlt.h"
 extern void mlt_register_core(mlt_repository repository);
+extern void mlt_register_ffmpeg(mlt_repository repository);
 extern void (* const func_ptr[])(mlt_repository repository);
 void (* const func_ptr[])(mlt_repository repository) = {
-        mlt_register_core
+        mlt_register_core,
+        mlt_register_ffmpeg
 };

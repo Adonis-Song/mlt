@@ -403,17 +403,22 @@ static mlt_properties metadata( mlt_service_type type, const char *id, void *dat
 	return mlt_properties_parse_yaml( file );
 }
 
+#ifdef __ANDROID__
+extern void mlt_register_ffmpeg(mlt_repository repository);
+void mlt_register_ffmpeg(mlt_repository repository)
+#else
 MLT_REPOSITORY
+#endif
 {
-#ifdef CODECS
+//#ifdef CODECS
 	MLT_REGISTER( mlt_service_consumer_type, "avformat", create_service );
 	MLT_REGISTER( mlt_service_producer_type, "avformat", create_service );
 	MLT_REGISTER( mlt_service_producer_type, "avformat-novalidate", create_service );
 	MLT_REGISTER_METADATA( mlt_service_consumer_type, "avformat", avformat_metadata, NULL );
 	MLT_REGISTER_METADATA( mlt_service_producer_type, "avformat", avformat_metadata, NULL );
 	MLT_REGISTER_METADATA( mlt_service_producer_type, "avformat-novalidate", metadata, "producer_avformat-novalidate.yml" );
-#endif
-#ifdef FILTERS
+//#endif
+//#ifdef FILTERS
 	MLT_REGISTER( mlt_service_filter_type, "avcolour_space", create_service );
 	MLT_REGISTER( mlt_service_filter_type, "avcolor_space", create_service );
 	MLT_REGISTER( mlt_service_filter_type, "avdeinterlace", create_service );
@@ -424,7 +429,7 @@ MLT_REPOSITORY
 	MLT_REGISTER_METADATA( mlt_service_filter_type, "swscale", metadata, "filter_swscale.yml" );
 
 
-#ifdef AVFILTER
+//#ifdef AVFILTER
 	char dirname[PATH_MAX];
 	snprintf( dirname, PATH_MAX, "%s/avformat/blacklist.txt", mlt_environment( "MLT_DATA" ) );
 	mlt_properties blacklist = mlt_properties_load( dirname );
@@ -454,10 +459,10 @@ MLT_REPOSITORY
 		}
 	}
 	mlt_properties_close( blacklist );
-#endif // AVFILTER
-#endif
-#ifdef SWRESAMPLE
+//#endif // AVFILTER
+//#endif
+//#ifdef SWRESAMPLE
 	MLT_REGISTER( mlt_service_filter_type, "swresample", create_service );
 	MLT_REGISTER_METADATA( mlt_service_filter_type, "swresample", metadata, "filter_swresample.yml" );
-#endif
+//#endif
 }

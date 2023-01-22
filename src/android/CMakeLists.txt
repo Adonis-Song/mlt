@@ -3,7 +3,7 @@ add_library(mlt-android SHARED
         mlt_android_register.c
 )
 
-target_link_libraries(mlt-android PRIVATE  mlt m mltcore Threads::Threads)
+target_link_libraries(mlt-android PRIVATE  mlt m mltcore mltavformat Threads::Threads)
 
 target_include_directories(mlt-android PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>

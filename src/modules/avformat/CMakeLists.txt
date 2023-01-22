@@ -1,4 +1,4 @@
-add_library(mltavformat MODULE
+add_library(mltavformat OBJECT
   common.c common.h
   factory.c
   filter_avcolour_space.c
@@ -15,14 +15,17 @@ add_custom_target(Other_avformat_Files SOURCES
 
 target_compile_options(mltavformat PRIVATE ${MLT_COMPILE_OPTIONS})
 
+include_directories(mltavformat /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/include)
+
 target_link_libraries(mltavformat PRIVATE
   mlt
   m
   Threads::Threads
-  PkgConfig::libavformat
-  PkgConfig::libswscale
-  PkgConfig::libavutil
+  /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libavformat.so
+  /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libswscale.so
+  /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libavutil.so
 )
+message("song song  avcodeco "  ${pkgcfg_lib_libavcodec_avcodec})
 
 target_compile_definitions(mltavformat PRIVATE FILTERS)
 
@@ -31,25 +34,29 @@ if(WIN32)
 endif()
 
 if(TARGET PkgConfig::libavcodec)
+  message("song song libavcodec")
   target_sources(mltavformat PRIVATE producer_avformat.c consumer_avformat.c)
-  target_link_libraries(mltavformat PRIVATE PkgConfig::libavcodec)
+  target_link_libraries(mltavformat PRIVATE /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libavcodec.so)
   target_compile_definitions(mltavformat PRIVATE CODECS)
 endif()
 
 if(TARGET PkgConfig::libavfilter)
+  message("song song libavfilter")
   target_sources(mltavformat PRIVATE filter_avfilter.c)
-  target_link_libraries(mltavformat PRIVATE PkgConfig::libavfilter)
+  target_link_libraries(mltavformat PRIVATE /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libavfilter.so)
   target_compile_definitions(mltavformat PRIVATE AVFILTER)
 endif()
 
 if(TARGET PkgConfig::libavdevice)
-  target_link_libraries(mltavformat PRIVATE PkgConfig::libavdevice)
+  message("song song libavdevice")
+  target_link_libraries(mltavformat PRIVATE /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libavdevice.so)
   target_compile_definitions(mltavformat PRIVATE AVDEVICE)
 endif()
 
 if(TARGET PkgConfig::libswresample)
+  message("song song libswresample")
   target_sources(mltavformat PRIVATE filter_swresample.c)
-  target_link_libraries(mltavformat PRIVATE PkgConfig::libswresample)
+  target_link_libraries(mltavformat PRIVATE /Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/libswresample.so)
   target_compile_definitions(mltavformat PRIVATE SWRESAMPLE)
 endif()
 
