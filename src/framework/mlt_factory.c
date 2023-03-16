@@ -161,7 +161,7 @@ mlt_repository mlt_factory_init( const char *directory )
 			directory = PREFIX_LIB;
 		// Store the prefix for later retrieval
 		mlt_directory = strdup( directory );
-#else
+#elif !defined(__ANDROID__)
 		if ( directory ) {
 			mlt_directory = strdup( directory );
 		} else {
@@ -466,7 +466,7 @@ mlt_consumer mlt_factory_consumer( mlt_profile profile, const char *service, con
 	mlt_consumer obj = NULL;
 
 	if ( service == NULL )
-		service = mlt_environment( "MLT_CONSUMER" );
+		service = mlt_environment( "MLT_CONSUMER");
 
 	// Offer the application the chance to 'create'
 	mlt_factory_event_data data = {

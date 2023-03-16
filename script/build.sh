@@ -1,10 +1,10 @@
-LOCAL_PATH=/Users/zhuosong/Documents/github/mlt
+LOCAL_PATH=/Users/apple/Documents/mediaframework/mlt
 # LOCAL_PATH=/Users/apple/Documents/mediaframework/mlt
-LOCAL_NDK_PATH=/Users/zhuosong/Library/Android/sdk/ndk/24.0.8215888
+LOCAL_NDK_PATH=/Users/apple/Library/Android/sdk/ndk/21.4.7075529
 # LOCAL_NDK_PATH=/Users/apple/Library/Android/sdk/ndk/24.0.8215888/
-LOCAL_DEP_PATH=/Users/zhuosong/Documents/github/ffmpeg/build/android/arm64-v8a/lib/pkgconfig
+LOCAL_DEP_PATH=/Users/apple/Documents/git-test-project/ffmpeg/build-android/android/arm64-v8a/lib/
 
-cd $LOCAL_PATH/build/ || return
+cd $LOCAL_PATH/build-android/ || return
 cmake .. \
 -DCMAKE_BUILD_TYPE=Debug \
 -DCMAKE_TOOLCHAIN_FILE=$LOCAL_NDK_PATH/build/cmake/android.toolchain.cmake \
@@ -20,4 +20,4 @@ cmake .. \
 -DANDROID_LIB_PATH=$LOCAL_DEP_PATH
 #make -j 8
 
-cmake --build . --target install --config Debug
+#cmake --build . --target install --config Debug

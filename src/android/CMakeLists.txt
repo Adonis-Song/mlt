@@ -1,25 +1,33 @@
 
-add_library(mlt-android SHARED
-        mlt_android_register.c
+add_library(mltmobile SHARED
+  mlt_mobile_register.c
 )
 
-target_link_libraries(mlt-android PRIVATE  mlt m mltcore mltavformat Threads::Threads)
+target_sources(mltmobile PRIVATE mlt_mobile_register.h)
 
-target_include_directories(mlt-android PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+target_link_libraries(mltmobile PRIVATE mlt m mltcore)
+
+if (MOD_AVFORMAT)
+  target_link_libraries(mltmobile PRIVATE mltavformat)
+  target_compile_definitions(mltmobile PRIVATE OPTION_FFMPEG)
+endif()
+
+target_include_directories(mltmobile PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../framework>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/mlt-${MLT_VERSION_MAJOR}>
 )
 
-set_target_properties(mlt-android PROPERTIES
+message("song song $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}> ")
+
+set_target_properties(mltmobile PROPERTIES
   VERSION ${MLT_VERSION}
   SOVERSION ${MLT_VERSION_MAJOR}
 #  OUTPUT_NAME mlt-${MLT_VERSION_MAJOR}
-  PUBLIC_HEADER "${MLT_PUBLIC_HEADERS}"
+  PUBLIC_HEADER "mlt_mobile_register.h"
 )
 
-install(TARGETS mlt-android
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+install(TARGETS mltmobile
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 

@@ -52,8 +52,6 @@ struct mlt_repository_s
 	mlt_properties transitions;     /// a list of entry points for transitions
 };
 
-extern void (* const func_ptr[])(mlt_repository repository);
-
 /** Construct a new repository.
  *
  * \public \memberof mlt_repository_s
@@ -184,18 +182,11 @@ mlt_repository mlt_repository_init( const char *directory )
     mlt_properties_close( dir );
 
 	mlt_tokeniser_close( tokeniser );
-#else
-	for(int i = 0; i < sizeof(func_ptr) / sizeof(func_ptr[0]))
-	{
-		func_ptr[i](self);
-		plugin_count ++;
-	}
-#endif
-    
-	if ( !plugin_count )
-		mlt_log_error( NULL, "%s: no plugins found in \"%s\"\n", __FUNCTION__, directory );
 
-	
+    if ( !plugin_count )
+        mlt_log_error( NULL, "%s: no plugins found in \"%s\"\n", __FUNCTION__, directory );
+
+#endif
 
 	return self;
 }
@@ -300,14 +291,19 @@ static mlt_properties get_service_properties( mlt_repository self, mlt_service_t
 
 void *mlt_repository_create( mlt_repository self, mlt_profile profile, mlt_service_type type, const char *service, const void *input )
 {
+	mlt_log_error(NULL, "song song mlt_repository_create 1\n");
 	mlt_properties properties = get_service_properties( self, type, service );
+	    mlt_log_error(NULL, "song song mlt_repository_create 2\n");
 	if ( properties != NULL )
 	{
-		mlt_register_callback symbol_ptr = mlt_properties_get_data( properties, "symbol", NULL );
+		mlt_log_error(NULL, "song song mlt_repository_create 3\n");
 
+		mlt_register_callback symbol_ptr = mlt_properties_get_data( properties, "symbol", NULL );
+		mlt_log_error(NULL, "song song mlt_repository_create 4\n");
 		// Construct the service
 		return ( symbol_ptr != NULL ) ? symbol_ptr( profile, type, service, input ) : NULL;
 	}
+	mlt_log_error(NULL, "song song mlt_repository_create 5\n");
 	return NULL;
 }
 

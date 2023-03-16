@@ -6,14 +6,12 @@ target_link_libraries(melt PRIVATE mlt Threads::Threads)
 
 target_compile_definitions(melt PRIVATE VERSION="${MLT_VERSION}")
 
-if(NOT ANDROID)
 if(TARGET PkgConfig::sdl2)
     target_link_libraries(melt PRIVATE PkgConfig::sdl2)
     target_compile_definitions(melt PRIVATE HAVE_SDL2)
     if(MINGW)
         target_link_libraries(melt PRIVATE mingw32)
     endif()
-endif()
 endif()
 
 if(MINGW)
