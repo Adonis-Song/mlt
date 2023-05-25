@@ -1752,7 +1752,7 @@ static void mlt_thread_create(mlt_consumer self, mlt_thread_function_t function 
             priv->ahead_thread = malloc( sizeof( pthread_t ) );
             pthread_t *handle = priv->ahead_thread;
             pthread_create( ( pthread_t* ) &( *handle ), NULL, function, self );
-#elif
+#else
 			pthread_attr_t thread_attributes;
 			pthread_attr_init( &thread_attributes );
 			pthread_attr_setschedpolicy( &thread_attributes, SCHED_OTHER );

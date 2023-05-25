@@ -44,7 +44,7 @@ if(TARGET PkgConfig::libavfilter)
   target_compile_definitions(mltavformat PRIVATE AVFILTER)
 endif()
 
-if(TARGET PkgConfig::libavdevice)
+if(NOT ANDROID AND TARGET PkgConfig::libavdevice)
   target_link_libraries(mltavformat PRIVATE PkgConfig::libavdevice)
   target_compile_definitions(mltavformat PRIVATE AVDEVICE)
 endif()
